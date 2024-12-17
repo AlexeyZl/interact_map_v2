@@ -33,7 +33,7 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "/img/rsd.jpg",
+        image: "img/rsd.jpg",
         // link: { href: "https://example.com/region1", text: "Подробнее 1" }
       },
       {
@@ -41,7 +41,7 @@ const regionData = {
         type: "II Всероссийских спотивных игр святого благоверного Александра Невского",
         name: "Вера и спорт",
         text: "Слоган или что там хотели написать",
-        image: "/img/vera.jpg",
+        image: "img/vera.jpg",
         // link: { href: "https://example.com/region1-2", text: "Подробнее 2" }
       }
     ]
@@ -54,7 +54,7 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "/img/rsd.jpg",
+        image: "img/rsd.jpg",
         // link: { href: "https://example.com/region2", text: "Подробнее 1" }
       }
     ]
