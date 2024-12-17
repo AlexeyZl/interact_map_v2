@@ -1,18 +1,22 @@
-#map svg{
+#map svg {
     max-width: 100%;
 }
-.uncovered{
+
+.uncovered {
     fill: #CFED00;
 }
-.covered{
+
+.covered {
     fill: #851FFF;
     transition: fill 1.2s ease;
+    cursor: pointer;
 }
-.covered:hover, .covered:focus{
+
+.covered:hover {
     fill: #FF008F;
 }
 
-.pulse-container{
+.pulse-container {
     display: none;
 }
 
@@ -23,16 +27,19 @@
     animation: pulse 1.5s infinite ease-out;
     opacity: 0;
 }
+
 @keyframes pulse {
     0% {
         r: 5;
         opacity: 1;
     }
+
     100% {
         r: 25;
         opacity: 0;
     }
 }
+
 .pulse-multiple .pulse-ring {
     animation: pulse 1.5s infinite ease-out;
 }
@@ -51,26 +58,40 @@
 
 /* Попап */
 .popup {
+    font-family: Montserrat;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.5);
     width: 80%;
-    max-width: 400px;
-    background: white;
+    max-width: 600px;
+    background: #000;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 20px;
     z-index: 1000;
-    display: none; /* Скрываем по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.5s ease, opacity 0.3s ease, visibility 0.3s;
 }
 
-.popup-content {
-    text-align: center;
+.popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
 }
 
+#popup-title{
+    color:#fff;
+    margin: -10px 0px 10px;
+}
+
+.popup p, h3 {
+    margin: 0;
+}
 .popup img {
-    width: 100%;
+    width: 100px;
+    max-width: 100px;
     height: auto;
     border-radius: 8px;
 }
@@ -82,11 +103,48 @@
     text-decoration: underline;
 }
 
+.popup-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.popup-item {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    transition: 0.8s ease;
+}
+.popup-item:hover {
+    background: #851FFF;
+    color: #fff;
+}
+.popup-item:active, .popup-item:focus, .popup-item:focus-visible{
+    background: #EC1164;
+    color: #fff;
+}
+.event-date{
+    padding-right: 15px;
+    border-right: 1px solid;
+    font-weight: 700;
+    min-width: 110px;
+}
+.event-description{
+    width: 340px;
+}
+
+.slogan{
+    padding-top: 15px;
+}
+
 .popup-close {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 24px;
+    color:#fff;
     cursor: pointer;
 }
 
@@ -103,5 +161,12 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    display: none; /* Скрываем по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+#overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
