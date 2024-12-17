@@ -67,7 +67,7 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "/img/rsd.jpg",
+        image: "img/rsd.jpg",
         // link: { href: "https://example.com/region2", text: "Подробнее 1" }
       }
     ]
