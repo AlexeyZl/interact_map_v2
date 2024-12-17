@@ -25,66 +25,137 @@ regionsLayer.addEventListener('mouseout', (e) => {
 
 //Массив мероприятий
 const regionData = {
-  "irkutsk": {
-      title: "Регион 1",
-      description: "Описание региона 1",
-      image: "https://example.com/image1.jpg",
-      link: "https://example.com/region1"
-  },
   "yakutia": {
-      title: "Регион 2",
-      description: "Описание региона 2",
-      image: "https://example.com/image2.jpg",
-      link: "https://example.com/region2"
+    title: "Якутия",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region1", text: "Подробнее 1" }
+      },
+      {
+        date: "10-12.11.2018",
+        type: "II Всероссийских спотивных игр святого благоверного Александра Невского",
+        name: "Вера и спорт",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/vera.jpg",
+        // link: { href: "https://example.com/region1-2", text: "Подробнее 2" }
+      }
+    ]
+  },
+  "irkutsk": {
+    title: "Иркутск",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
   },
   "krasnoyarsk": {
-    title: "Регион 3",
-    description: "Описание региона 3",
-    image: "https://example.com/image2.jpg",
-    link: "https://example.com/region2"
-}  
-  // Добавьте данные для остальных регионов
+    title: "Красноярск",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  }
 };
 //Вызов окна
-// Получаем элементы
+// Получаем элементы всплывающего окна
 const popup = document.getElementById("popup");
 const popupTitle = document.getElementById("popup-title");
-const popupImage = document.getElementById("popup-image");
-const popupDescription = document.getElementById("popup-description");
-const popupLink = document.getElementById("popup-link");
+const popupItems = document.getElementById("popup-items");
 const popupClose = document.getElementById("popup-close");
-const overlay = document.createElement("div");
-overlay.id = "overlay";
-document.body.appendChild(overlay);
+const overlay = document.getElementById("overlay");
 
-// Показываем всплывающее окно
+// Функция показа всплывающего окна
 function showPopup(regionId) {
-    const data = regionData[regionId];
-    if (!data) return; // Если данных для региона нет, ничего не делаем
+  const data = regionData[regionId];
+  if (!data) return;
 
-    popupTitle.textContent = data.title;
-    popupImage.src = data.image;
-    popupDescription.textContent = data.description;
-    popupLink.href = data.link;
+  popupTitle.textContent = data.title;
+  popupItems.innerHTML = ""; // Очищаем старый контент
 
-    popup.classList.remove("hidden");
-    overlay.style.display = "block";
-    popup.style.display = "block";
+  data.content.forEach(item => {
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "popup-item";
+
+    if (item.date) {
+      const date = document.createElement("div");
+      date.textContent = item.date;
+      date.classList.add("event-date");
+      itemDiv.appendChild(date);
+    }
+
+    const descDiv = document.createElement("div");
+    descDiv.className = "event-description"
+    itemDiv.appendChild(descDiv);
+
+    if (item.type) {
+      const type = document.createElement("p");
+      type.textContent = item.type;
+      descDiv.appendChild(type);
+    }
+
+    if (item.name) {
+      const name = document.createElement("h3");
+      name.textContent = item.name;
+      descDiv.appendChild(name);
+    }  
+    if (item.text) {
+      const text = document.createElement("p");
+      text.textContent = item.text;
+      text.classList.add("slogan");
+      descDiv.appendChild(text);
+    }
+
+    if (item.link) {
+      const link = document.createElement("a");
+      link.href = item.link.href;
+      link.textContent = item.link.text;
+      link.target = "_blank";
+      itemDiv.appendChild(link);
+    }
+
+    if (item.image) {
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.text || "Изображение";
+      itemDiv.appendChild(img);
+    }
+
+    popupItems.appendChild(itemDiv);
+  });
+
+  popup.classList.add("show");
+  overlay.classList.add("show");
 }
 
-// Скрываем всплывающее окно
+// Функция скрытия всплывающего окна
 function hidePopup() {
-    popup.classList.add("hidden");
-    overlay.style.display = "none";
-    popup.style.display = "none";
+  popup.classList.remove("show");
+  overlay.classList.remove("show");
 }
 
-// Навешиваем обработчики событий
+// Обработчики событий для закрытия окна
 popupClose.addEventListener("click", hidePopup);
 overlay.addEventListener("click", hidePopup);
 
-// Обрабатываем клик по регионам
+// Обработчик клика по регионам
 document.getElementById("regions").addEventListener("click", (e) => {
-    const regionId = e.target.id; // ID региона
-    showPopup(regionId);
+  const regionId = e.target.id;
+  showPopup(regionId);
 });
