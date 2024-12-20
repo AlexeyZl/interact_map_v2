@@ -2,9 +2,9 @@
 const regionsLayer = document.getElementById('regions');
 
 regionsLayer.addEventListener('mouseover', (e) => {
-  const targetIds = e.target.dataset.target; // Получаем список ID точек
-  if (targetIds) {
-    const pointIds = targetIds.split(','); // Разделяем их в массив
+  const target = e.target.closest('[data-target]'); // Найти элемент с data-target
+  if (target) {
+    const pointIds = target.dataset.target.split(',');
     pointIds.forEach(id => {
       const point = document.getElementById(id.trim());
       if (point) point.style.display = 'block';
@@ -13,9 +13,9 @@ regionsLayer.addEventListener('mouseover', (e) => {
 });
 
 regionsLayer.addEventListener('mouseout', (e) => {
-  const targetIds = e.target.dataset.target;
-  if (targetIds) {
-    const pointIds = targetIds.split(',');
+  const target = e.target.closest('[data-target]');
+  if (target) {
+    const pointIds = target.dataset.target.split(',');
     pointIds.forEach(id => {
       const point = document.getElementById(id.trim());
       if (point) point.style.display = 'none';
@@ -23,8 +23,74 @@ regionsLayer.addEventListener('mouseout', (e) => {
   }
 });
 
+//Тест меток сафари
+function isSafari() {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+if (isSafari()) {
+  // Фоллбек для анимации пульсации в Safari
+  function animatePulse(circle) {
+      let startRadius = 5;
+      let maxRadius = 25;
+      let duration = 1500; // В миллисекундах
+      let startTime;
+
+      function frame(timestamp) {
+          if (!startTime) startTime = timestamp;
+          let progress = (timestamp - startTime) / duration;
+
+          if (progress > 1) {
+              startTime = timestamp;
+              progress = 0;
+          }
+
+          let currentRadius = startRadius + (maxRadius - startRadius) * progress;
+          let currentOpacity = 1 - progress;
+
+          circle.setAttribute('r', currentRadius);
+          circle.style.opacity = currentOpacity;
+
+          requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+  }
+
+  // Инициализация для всех точек
+  document.querySelectorAll('.pulse-ring').forEach(circle => {
+      animatePulse(circle);
+  });
+}
+
+
 //Массив мероприятий
 const regionData = {
+  "kamchatka": {
+    title: "Камчатка",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  },
+  "primorskiy": {
+    title: "Приморский край",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  },
   "yakutia": {
     title: "Якутия",
     content: [
@@ -33,7 +99,7 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "img/rsd.jpg",
+        image: "/interact_map/img/rsd.jpg",
         // link: { href: "https://example.com/region1", text: "Подробнее 1" }
       },
       {
@@ -41,7 +107,7 @@ const regionData = {
         type: "II Всероссийских спотивных игр святого благоверного Александра Невского",
         name: "Вера и спорт",
         text: "Слоган или что там хотели написать",
-        image: "img/vera.jpg",
+        image: "/interact_map/img/vera.jpg",
         // link: { href: "https://example.com/region1-2", text: "Подробнее 2" }
       }
     ]
@@ -54,7 +120,7 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "img/rsd.jpg",
+        image: "/interact_map/img/rsd.jpg",
         // link: { href: "https://example.com/region2", text: "Подробнее 1" }
       }
     ]
@@ -67,11 +133,50 @@ const regionData = {
         type: "Международный спортивный форум",
         name: "Россия – спортивная держава",
         text: "Слоган или что там хотели написать",
-        image: "img/rsd.jpg",
+        image: "/interact_map/img/rsd.jpg",
         // link: { href: "https://example.com/region2", text: "Подробнее 1" }
       }
     ]
-  }
+  },
+  "kemerovo": {
+    title: "Кемерово",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  },
+  "omskaya": {
+    title: "Омская",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  },
+  "permskiy": {
+    title: "Пермский край",
+    content: [
+      {
+        date: "10-12.11.2019",
+        type: "Международный спортивный форум",
+        name: "Россия – спортивная держава",
+        text: "Слоган или что там хотели написать",
+        image: "/interact_map/img/rsd.jpg",
+        // link: { href: "https://example.com/region2", text: "Подробнее 1" }
+      }
+    ]
+  }     
 };
 //Вызов окна
 // Получаем элементы всплывающего окна
@@ -156,6 +261,9 @@ overlay.addEventListener("click", hidePopup);
 
 // Обработчик клика по регионам
 document.getElementById("regions").addEventListener("click", (e) => {
-  const regionId = e.target.id;
-  showPopup(regionId);
+  const regionElement = e.target.closest("g[id]"); // Ищем ближайший <g> с ID
+  if (regionElement) {
+    const regionId = regionElement.id;
+    showPopup(regionId);
+  }
 });
