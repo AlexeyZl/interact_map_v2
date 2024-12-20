@@ -2,6 +2,11 @@
     max-width: 100%;
 }
 
+#map svg path{
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
 .uncovered {
     fill: #CFED00;
 }
@@ -25,6 +30,7 @@
     stroke: white;
     stroke-width: 2;
     animation: pulse 1.5s infinite ease-out;
+    will-change: r, opacity;
     opacity: 0;
 }
 
